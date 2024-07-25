@@ -13,6 +13,7 @@ import useLoadTokens from "./utilities/hooks/useLoadTokens";
 import { connectWallet } from "./utilities/connectWallet";
 import { handleTokenChange } from "./utilities/changeToken";
 import useKnownTokens from "./utilities/hooks/useKnownTokens";
+import handleTransfer from "./utilities/transfer";
 
 const App = () => {
 
@@ -60,7 +61,7 @@ const App = () => {
       const tokenBalances = [];
       try {
         const ethBalance = await web3.eth.getBalance(account);
-        
+
         tokenBalances.push({
           symbol: "ETH",
           balance: Web3.utils.fromWei(ethBalance, "ether"),
@@ -118,68 +119,21 @@ const App = () => {
     }
   }, [loadTokens, loadBalance, selectedToken, web3Ref]);
 
-  // const connectWallet = async () => {
-  //   const web3 = web3Ref.current;
 
-  //   if (web3) {
-  //     try {
-  //       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-  //       setAccount(accounts[0]);
-  //       await loadTokens(accounts[0]);
-  //       if (selectedToken) {
-  //         loadBalance(accounts[0], selectedToken);
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  // };
-
-  // const handleTokenChange = (e) => {
-  //   const token = tokens.find((t) => t.address === e.target.value);
-  //   setSelectedToken(token);
-  //   if (account) {
-  //     loadBalance(account, token);
-  //   }
-  // };
+  const connectWalletHandler = () => connectWallet({ web3Ref, setAccount, loadTokens, loadBalance, selectedToken })
 
   const handleTokenChangeHandler = handleTokenChange(tokens, setSelectedToken, account, loadBalance, setBalance);
 
-  const handleTransfer = async () => {
-    const web3 = web3Ref.current;
-    if (web3 && account && recipient && amount && selectedToken) {
-      try {
-        let tx;
-        if (selectedToken.symbol === "ETH") {
-          tx = await web3.eth.sendTransaction({
-            from: account,
-            to: recipient,
-            value: web3.utils.toWei(amount, "ether"),
-          });
-        } else {
-          const tokenContract = new web3.eth.Contract(ERC20_ABI, selectedToken.address);
-          const decimals = await tokenContract.methods.decimals().call();
-          const value = bigInt(web3.utils.toWei(amount, "ether")).divide(
-            bigInt(10).pow(18 - Number(decimals))
-          );
-          console.log(`Transferring ${value.toString()} ${selectedToken.symbol} to ${recipient}`);
-          tx = await tokenContract.methods.transfer(recipient, value.toString()).send({ from: account });
-        }
-        console.log("Transaction:", tx);
-        setTransactionHash(tx.transactionHash);
-      } catch (error) {
-        console.error("Failed to transfer token:", error);
-      }
-    }
+  const handleTransferHandler = () => {
+    handleTransfer(web3Ref.current, account, recipient, amount, selectedToken, setTransactionHash);
   };
-
+ 
   return (
     <div className="App">
       <div className="main">
         <Header />
         {!account ? (
-          // <Button text={"Connect MetaMask"} action={connectWallet} />
-          <Button text={"Connect MetaMask"} action={() => connectWallet({ web3Ref, setAccount, loadTokens, loadBalance, selectedToken })} />
+          <Button text={"Connect MetaMask"} action={connectWalletHandler} />
         ) : (
           <WalletInfo
             account={account}
@@ -189,7 +143,7 @@ const App = () => {
             amount={amount}
             balance={balance}
             handleTokenChange={handleTokenChangeHandler}
-            handleTransfer={handleTransfer}
+            handleTransfer={handleTransferHandler}
             recipient={recipient}
             selectedToken={selectedToken}
             setAmount={setAmount}
