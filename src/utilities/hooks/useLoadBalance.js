@@ -2,8 +2,7 @@ import { useCallback } from "react";
 import Web3 from "web3";
 import { ERC20_ABI } from "../erc20";
 
-function useLoadBalance(web3, setBalance) {
-
+const useLoadBalance = (web3, setBalance) => {
     const loadBalance = useCallback(
         async (account, token) => {
             if (web3 && token) {
@@ -23,7 +22,7 @@ function useLoadBalance(web3, setBalance) {
                 }
             }
         },
-        [setBalance]
+        [web3, setBalance]
     );
 
     return loadBalance;

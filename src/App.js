@@ -60,29 +60,30 @@ const App = () => {
       const tokenBalances = [];
       try {
         const ethBalance = await web3.eth.getBalance(account);
+        
         tokenBalances.push({
           symbol: "ETH",
           balance: Web3.utils.fromWei(ethBalance, "ether"),
-          address: "",
+          address: '0x0000000000000000000000000000000000000000',
         });
       } catch (error) {
         console.error("Failed to load ETH balance:", error);
       }
-      for (const token of knownTokens) {
-        try {
-          const tokenContract = new web3.eth.Contract(ERC20_ABI, token.address);
-          const balance = await tokenContract.methods.balanceOf(account).call();
-          const decimals = await tokenContract.methods.decimals().call();
-          const symbol = await tokenContract.methods.symbol().call();
-          tokenBalances.push({
-            symbol,
-            balance: Number(balance) / 10 ** Number(decimals),
-            address: token.address,
-          });
-        } catch (error) {
-          console.error(`Failed to load token ${token.name}:`, error);
-        }
-      }
+      // for (const token of knownTokens) {
+      //   try {
+      //     const tokenContract = new web3.eth.Contract(ERC20_ABI, token.address);
+      //     const balance = await tokenContract.methods.balanceOf(account).call();
+      //     const decimals = await tokenContract.methods.decimals().call();
+      //     const symbol = await tokenContract.methods.symbol().call();
+      //     tokenBalances.push({
+      //       symbol,
+      //       balance: Number(balance) / 10 ** Number(decimals),
+      //       address: token.address,
+      //     });
+      //   } catch (error) {
+      //     console.error(`Failed to load token ${token.name}:`, error);
+      //   }
+      // }
       setTokens(tokenBalances);
     },
     [knownTokens]
@@ -117,32 +118,32 @@ const App = () => {
     }
   }, [loadTokens, loadBalance, selectedToken, web3Ref]);
 
-  const connectWallet = async () => {
-    const web3 = web3Ref.current;
+  // const connectWallet = async () => {
+  //   const web3 = web3Ref.current;
 
-    if (web3) {
-      try {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
-        setAccount(accounts[0]);
-        await loadTokens(accounts[0]);
-        if (selectedToken) {
-          loadBalance(accounts[0], selectedToken);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  };
+  //   if (web3) {
+  //     try {
+  //       const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+  //       setAccount(accounts[0]);
+  //       await loadTokens(accounts[0]);
+  //       if (selectedToken) {
+  //         loadBalance(accounts[0], selectedToken);
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  // };
 
-  const handleTokenChange = (e) => {
-    const token = tokens.find((t) => t.address === e.target.value);
-    setSelectedToken(token);
-    if (account) {
-      loadBalance(account, token);
-    }
-  };
+  // const handleTokenChange = (e) => {
+  //   const token = tokens.find((t) => t.address === e.target.value);
+  //   setSelectedToken(token);
+  //   if (account) {
+  //     loadBalance(account, token);
+  //   }
+  // };
 
-  // const handleTokenChangeHandler = handleTokenChange(tokens, setSelectedToken, account, loadBalance, setBalance);
+  const handleTokenChangeHandler = handleTokenChange(tokens, setSelectedToken, account, loadBalance, setBalance);
 
   const handleTransfer = async () => {
     const web3 = web3Ref.current;
@@ -177,8 +178,8 @@ const App = () => {
       <div className="main">
         <Header />
         {!account ? (
-          <Button text={"Connect MetaMask"} action={connectWallet} />
-          // <Button text={"Connect MetaMask"} action={() => connectWallet({ web3Ref, setAccount, loadTokens, loadBalance, selectedToken })} />
+          // <Button text={"Connect MetaMask"} action={connectWallet} />
+          <Button text={"Connect MetaMask"} action={() => connectWallet({ web3Ref, setAccount, loadTokens, loadBalance, selectedToken })} />
         ) : (
           <WalletInfo
             account={account}
@@ -187,7 +188,7 @@ const App = () => {
             setTransactionHash={setTransactionHash}
             amount={amount}
             balance={balance}
-            handleTokenChange={handleTokenChange}
+            handleTokenChange={handleTokenChangeHandler}
             handleTransfer={handleTransfer}
             recipient={recipient}
             selectedToken={selectedToken}
