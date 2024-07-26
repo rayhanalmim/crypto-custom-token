@@ -74,11 +74,11 @@ const App = () => {
     connectWallet({ web3Ref, setAccount, loadTokens, loadBalance, selectedToken })
   }
 
-  function handleTokenChangeHandler(event) {
+  function tokenChangeHandler(event) {
     handleTokenChange({ tokens, setSelectedToken, account, loadBalance, setBalance, event });
   };
 
-  function handleTransferHandler() {
+  function transferHandler() {
     handleTransfer({ web3Ref, account, recipient, amount, selectedToken, setTransactionHash });
   }
 
@@ -96,8 +96,8 @@ const App = () => {
             setTransactionHash={setTransactionHash}
             amount={amount}
             balance={balance}
-            handleTokenChange={handleTokenChangeHandler}
-            handleTransfer={handleTransferHandler}
+            handleTokenChange={tokenChangeHandler}
+            handleTransfer={transferHandler}
             recipient={recipient}
             selectedToken={selectedToken}
             setAmount={setAmount}
