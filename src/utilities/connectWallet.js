@@ -1,5 +1,5 @@
 
-export async function connectWallet({web3Ref, setAccount, loadTokens, loadBalance, selectedToken}) {
+export async function connectWallet({ web3Ref, setAccount, loadTokens, loadBalance, selectedToken }) {
     const web3 = web3Ref.current;
 
     if (web3) {

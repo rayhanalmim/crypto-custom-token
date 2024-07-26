@@ -2,7 +2,8 @@ import Web3 from "web3";
 import bigInt from "big-integer";
 import { ERC20_ABI } from "./erc20";
 
-async function handleTransfer(web3, account, recipient, amount, selectedToken, setTransactionHash) {
+export async function handleTransfer({ web3Ref, account, recipient, amount, selectedToken, setTransactionHash }) {
+    const web3 = web3Ref.current;
     if (web3 && account && recipient && amount && selectedToken) {
         try {
             let tx;
@@ -29,4 +30,4 @@ async function handleTransfer(web3, account, recipient, amount, selectedToken, s
     }
 }
 
-export default handleTransfer;
+
