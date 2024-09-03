@@ -1,7 +1,7 @@
-export function TokenOptions({ handleTokenChange, selectedToken, tokens }) {
+export function TokenOptions({ selectedToken, tokens, onTokenChange }) {
   return (
-    <select onChange={handleTokenChange} value={selectedToken?.address || ""}>
-      <option value="" disabled>
+    <select onChange={onTokenChange} value={selectedToken?.address || ''}>
+      <option value='' disabled>
         Select Token
       </option>
       {tokens.map((token) => (
