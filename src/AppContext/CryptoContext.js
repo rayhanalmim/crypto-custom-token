@@ -1,4 +1,4 @@
-import { createContext, useState, useRef, useEffect } from 'react';
+import { createContext, useState, useRef } from 'react';
 import useLoadTokenBalance from '../utilities/hooks/useLoadTokenBalance';
 import useLoadTokens from '../utilities/hooks/useLoadTokens';
 import useWeb3AccountHandler from '../utilities/hooks/useWeb3AccountHandler';
