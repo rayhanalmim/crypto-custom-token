@@ -14,27 +14,17 @@ function CryptoContextProvider({ children }) {
   const web3Ref = useRef(null);
    const provider = web3Ref.current ? web3Ref.current.eth : null;
 
-  const loadBalance = useLoadTokenBalance(provider, setBalance);
+  const loadBalanceFunction = useLoadTokenBalance(provider, setBalance);
   const loadTokens = useLoadTokens(web3Ref, setTokens);
 
   useWeb3AccountHandler({
+    account,
     web3Ref,
     setAccount,
     loadTokens,
-    loadBalance,
-    setBalance,
     selectedToken,
+    loadBalanceFunction,
   });
-
-  useEffect(() => {
-    const testLoadBalance = async () => {
-      if (account) {
-        await loadBalance(account, selectedToken); 
-      }
-    };
-    console.log(balance);
-    testLoadBalance();
-  }, [account, selectedToken, loadBalance, balance]);
 
   return (
     <CryptoContext.Provider
@@ -48,7 +38,7 @@ function CryptoContextProvider({ children }) {
         selectedToken,
         setSelectedToken,
         web3Ref,
-        loadBalance,
+        loadBalance : loadBalanceFunction,
         loadTokens,
       }}
     >
