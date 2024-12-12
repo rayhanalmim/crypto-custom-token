@@ -14,7 +14,7 @@ export async function handlePayment({
   if (web3 && account && recipient && amount && selectedToken) {
     try {
       let tx;
-      if (selectedToken.symbol === 'ETH') {
+      if (selectedToken.symbol === 'AVAX') {
         tx = await web3.eth.sendTransaction({
           from: account,
           to: recipient,

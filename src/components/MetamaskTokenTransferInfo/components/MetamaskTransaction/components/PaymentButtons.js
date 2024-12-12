@@ -9,6 +9,7 @@ export function PaymentButton({ amount ,recipient,setTransactionHash}) {
     web3Ref,
   } = useContext(CryptoContext);
     function paymentHandler() {
+      console.log('five item',selectedToken, account, web3Ref, amount, recipient);
       handlePayment({
         web3Ref,
         account,
