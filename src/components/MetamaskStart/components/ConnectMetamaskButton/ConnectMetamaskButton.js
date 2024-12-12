@@ -1,20 +1,12 @@
-import { useContext } from 'react';
-import CryptoContext from '../../../../AppContext/CryptoContext';
-import { connectWallet } from '../hooks/connectWallet';
+import React from 'react';
+import { useConnectMetamask } from './hooks/connectMetamaskWallet.js';
 
 export default function ConnectMetamaskButton() {
-  const { web3Ref, setAccount, loadTokens, loadBalance, selectedToken } =
-    useContext(CryptoContext);
+  const connectMetamaskWallet = useConnectMetamask(); 
 
-  function handleTransfer() {
-    connectWallet({
-      web3Ref,
-      setAccount,
-      loadTokens,
-      loadBalance,
-      selectedToken,
-    });
-  }
-
-  return <button onClick={handleTransfer}>Connect MetaMask</button>;
+  return (
+    <button onClick={connectMetamaskWallet}>
+      Connect MetaMask
+    </button>
+  );
 }

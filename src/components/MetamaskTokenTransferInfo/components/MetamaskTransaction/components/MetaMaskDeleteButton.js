@@ -1,10 +1,12 @@
-export default function MetaMaskDeleteButton({
-  setAccount,
-  setBalance,
-  setRecipient,
-  setAmount,
-  setTransactionHash,
-}) {
+import { useContext } from "react";
+import CryptoContext from "../../../../../AppContext/CryptoContext";
+
+export default function MetaMaskDeleteButton({ setRecipient, setAmount, setTransactionHash, }) {
+  const {
+    setBalance,
+    setAccount,
+  } = useContext(CryptoContext);
+
   const disconnectWallet = () => {
     setAccount(null);
     setBalance(null);

@@ -1,6 +1,20 @@
-export function TokenOptions({ selectedToken, tokens, onTokenChange }) {
+import { useContext } from "react";
+import CryptoContext from "../../../../../AppContext/CryptoContext";
+
+export function TokenOptions({ onTokenChange }) {
+  const {
+    selectedToken,
+    tokens,
+    setSelectedToken
+  } = useContext(CryptoContext);
+
+  function tokenChangeHandler(event) {
+    const token = tokens.find((t) => t.address === event.target.value);
+    setSelectedToken(token);
+  }
+  
   return (
-    <select onChange={onTokenChange} value={selectedToken?.address || ''}>
+    <select onChange={tokenChangeHandler} value={selectedToken?.address || ''}>
       <option value='' disabled>
         Select Token
       </option>

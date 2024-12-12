@@ -1,8 +1,8 @@
 import Web3 from 'web3';
 import bigInt from 'big-integer';
-import { ERC20_ABI } from '../../../../../utilities/hooks/erc20';
+import { ERC20_ABI } from '../../../../../utilities/erc20';
 
-export async function handleTransfer({
+export async function handlePayment({
   web3Ref,
   account,
   recipient,
