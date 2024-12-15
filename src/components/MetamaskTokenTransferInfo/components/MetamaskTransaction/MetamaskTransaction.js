@@ -5,9 +5,7 @@ import { PaymentButton } from "./components/PaymentButtons";
 import { TransactionInput } from "./components/TransactionInput";
 import { TransactionHash } from "./components/TransactionHash";
 import MetaMaskDeleteButton from "./components/MetaMaskDeleteButton";
-
 import "./MetamaskTransaction.css";
-
 
 export default function MetamaskTransaction() {
   const [amount, setAmount] = useState("");
