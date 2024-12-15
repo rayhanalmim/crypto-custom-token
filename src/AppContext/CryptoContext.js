@@ -12,9 +12,8 @@ function CryptoContextProvider({ children }) {
   const [selectedToken, setSelectedToken] = useState(null);
 
   const web3Ref = useRef(null);
-   const provider = web3Ref.current ? web3Ref.current.eth : null;
 
-  const loadBalanceFunction = useLoadTokenBalance(provider, setBalance);
+  const loadBalanceFunction = useLoadTokenBalance(setBalance );
   const loadTokens = useLoadTokens(web3Ref, setTokens);
 
   useWeb3AccountHandler({
