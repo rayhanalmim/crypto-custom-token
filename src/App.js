@@ -3,7 +3,7 @@ import MetamaskTokenTransferInfo from './components/MetamaskTokenTransferInfo/Me
 
 import './App.css';
 
-const App = () => {
+function App() {
   return (
     <div className='main'>
       <MetamaskStart />

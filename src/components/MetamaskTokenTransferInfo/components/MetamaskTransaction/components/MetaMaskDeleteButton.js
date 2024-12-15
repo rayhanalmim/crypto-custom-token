@@ -7,7 +7,7 @@ export default function MetaMaskDeleteButton({ setRecipient, setAmount, setTrans
     setAccount,
   } = useContext(CryptoContext);
 
-  const disconnectWallet = () => {
+  function disconnectWallet() {
     setAccount(null);
     setBalance(null);
     setRecipient('');

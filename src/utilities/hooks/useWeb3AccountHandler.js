@@ -2,18 +2,17 @@ import { useEffect } from "react";
 import Web3 from "web3";
 import handleAccountsChanged from "./handleAccountChange";
 
-const useWeb3AccountHandler = ({ web3Ref, setAccount, loadTokens, selectedToken, account, loadBalanceFunction }) => {
+function useWeb3AccountHandler ({ web3Ref, setAccount, loadTokens, selectedToken, account, loadBalanceFunction }) {
   useEffect(() => {
     if (window.ethereum) {
-      console.log('window.ethereum', window.ethereum);
       web3Ref.current = new Web3(window.ethereum);
 
-      const onAccountsChanged = (accounts) => {
+      function onAccountsChanged(accounts) {
         handleAccountsChanged(accounts, setAccount, loadTokens,  selectedToken);
         
       };
 
-      const loadAccountBalance = async () => {
+      async function loadAccountBalance() {
         if (account) {
           await loadBalanceFunction(account, selectedToken); 
         }

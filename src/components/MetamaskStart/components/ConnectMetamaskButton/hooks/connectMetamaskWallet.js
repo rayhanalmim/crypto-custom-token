@@ -5,7 +5,7 @@ export function useConnectMetamask() {
   const { web3Ref, setAccount, loadTokens, loadBalance, selectedToken } =
     useContext(CryptoContext);
 
-  const connectMetamaskWallet = async () => {
+  async function connectMetamaskWallet (){
     const web3 = web3Ref.current;
     if (web3) {
       try {

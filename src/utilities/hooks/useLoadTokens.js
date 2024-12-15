@@ -4,9 +4,9 @@ import { knownTokens } from '../knownTokens';
 import { getTokenInfo } from '../getTokenInfo';
 
 
-const useLoadTokens = (web3Ref, setTokens) => {
+function useLoadTokens(web3Ref, setTokens) {
   const loadTokens = useCallback(
-    async (account) => {
+    async function (account) {
       const web3 = web3Ref.current;
       const tokenInfo = [];
 

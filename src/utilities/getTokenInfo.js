@@ -1,6 +1,6 @@
 import { ERC20_ABI } from "./erc20";
 
-export const getTokenInfo = async (web3, account, token) => {
+export async function getTokenInfo(web3, account, token) {
     try {
       const tokenContract = new web3.eth.Contract(ERC20_ABI, token.address);
       const balance = await tokenContract.methods.balanceOf(account).call();
